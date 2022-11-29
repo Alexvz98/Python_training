@@ -6062,7 +6062,6 @@ import requests
 import re
 import csv
 
-
 # """Парсировка сайта WordPress.
 # Cохранение данных о плагинах в .csv
 # Название плагина/ссылка на плагин/рейтинг плагина
@@ -6107,4 +6106,136 @@ import csv
 # # if __name__ == '__main__':
 # #     main()
 
+import requests
+from bs4 import BeautifulSoup
 
+# def get_html(url):
+#     r = requests.get(url)
+#     return r.text
+#
+# def write_csv(data):
+#     with open('texnodom_parcing.csv', 'a') as f:
+#         writer = csv.writer(f, lineterminator='\r',delimiter=';')
+#         writer.writerow((data['name'], data['url'], data['rating'], data['price']))
+#
+# def get_data(html):
+#     soup = BeautifulSoup(html, 'lxml')
+#     p1 = soup.find('ul', class_="category-page-list__list")
+#     p2 = p1.find_all('li', class_='category-page-list__item')[3]
+#
+#     name = p2.find('p', class_='Typography ProductCardV__Title --loading Typography__Body Typography__Body_Bold').text
+#     raiting = p2.find('p', class_='Typography ProductCardV__Rating ProductCardV__RatingWrapper Typography__Body Typography__Body_Small Typography__Body_Bold').text
+#     addres = p2.find('a')['href']
+#     price = p2.find('div', class_='ProductCardV__PricesWrapper').find('p').text
+#     # print('Модель:', name)
+#     # print('Рейтинг:', raiting)
+#     # print("Ссылка на модель:",addres)
+#     # print('Цена', price)
+#
+#     data = {'name': name, 'url': addres, 'rating': raiting, 'price': price}
+#     write_csv(data)
+#
+# def main():
+#     url = 'https://www.technodom.kz/catalog/noutbuki-i-komp-jutery/noutbuki-i-aksessuary/noutbuki'
+#     get_data(get_html(url))
+#
+#
+# if __name__ == '__main__':
+#     main()
+
+
+import requests
+from bs4 import BeautifulSoup
+import csv
+
+
+# def get_html(url):
+#     r = requests.get(url)
+#     return r.text
+#
+#
+# def write_csv(data):
+#     with open('plugins1.csv', 'a') as f:
+#         writer = csv.writer(f, lineterminator='\r', delimiter=';')
+#         writer.writerow((data['name'],
+#                 data['url'],
+#                 data['snippet'],
+#                 data['active_install'],
+#                 data['tested']))
+#
+#
+# def refine_cy(s):
+#     return s.split()[-1]
+#
+#
+# def get_data(html):
+#     soup = BeautifulSoup(html, 'lxml')
+#     p1 = soup.find_all('article', class_='plugin-card')
+#     for i in p1:
+#         try:
+#             name = i.find('h3').text
+#         except ValueError:
+#             name = ''
+#
+#         try:
+#             url = i.find('h3').find('a').get('href')
+#         except ValueError:
+#             url = ''
+#
+#         try:
+#             snippet = i.find('div', class_= 'entry-excerpt').text.strip()
+#         except ValueError:
+#             snippet = ''
+#
+#         try:
+#             active = i.find('span', class_= 'active-installs').text.strip()
+#         except ValueError:
+#             active = ''
+#
+#         try:
+#             c = i.find('span', class_= 'tested-with').text.strip()
+#             cv = refine_cy(c)
+#         except ValueError:
+#             cv = ''
+#
+#         data = {
+#             'name': name,
+#             'url': url,
+#             'snippet': snippet,
+#             'active_install': active,
+#             'tested': cv
+#         }
+#         write_csv(data)
+#
+#
+# def main():
+#     url = 'https://ru.wordpress.org/plugins/browse/blocks/'
+#     get_data(get_html(url))
+#
+#
+# if __name__ == "__main__":
+#     main()
+
+#
+#
+# def get_html(url):
+#     r = requests.get(url)
+#     return r.text
+#
+# def get_data(html):
+#     soup = BeautifulSoup(html, 'lxml')
+#     p1 = soup.find_all('li', class_='category-page-list__item')
+#     for i in p1:
+#         try:
+#             name = i.find('p', class_='Typography ProductCardV__Title --loading Typography__Body Typography__Body_Bold').text
+#             print(name)
+#         except ValueError:
+#             name = ''
+#
+# def main():
+#     url = 'https://www.technodom.kz/catalog/noutbuki-i-komp-jutery/noutbuki-i-aksessuary/noutbuki'
+#     get_data(get_html(url))
+#
+#
+# if __name__ == "__main__":
+#     main()
