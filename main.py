@@ -6144,11 +6144,11 @@ from bs4 import BeautifulSoup
 #     main()
 
 
-import requests
-from bs4 import BeautifulSoup
-import csv
+# import requests
+# from bs4 import BeautifulSoup
+# import csv
 
-
+#
 # def get_html(url):
 #     r = requests.get(url)
 #     return r.text
@@ -6158,10 +6158,10 @@ import csv
 #     with open('plugins1.csv', 'a') as f:
 #         writer = csv.writer(f, lineterminator='\r', delimiter=';')
 #         writer.writerow((data['name'],
-#                 data['url'],
-#                 data['snippet'],
-#                 data['active_install'],
-#                 data['tested']))
+#                          data['url'],
+#                          data['snippet'],
+#                          data['active_install'],
+#                          data['tested']))
 #
 #
 # def refine_cy(s):
@@ -6183,17 +6183,17 @@ import csv
 #             url = ''
 #
 #         try:
-#             snippet = i.find('div', class_= 'entry-excerpt').text.strip()
+#             snippet = i.find('div', class_='entry-excerpt').text.strip()
 #         except ValueError:
 #             snippet = ''
 #
 #         try:
-#             active = i.find('span', class_= 'active-installs').text.strip()
+#             active = i.find('span', class_='active-installs').text.strip()
 #         except ValueError:
 #             active = ''
 #
 #         try:
-#             c = i.find('span', class_= 'tested-with').text.strip()
+#             c = i.find('span', class_='tested-with').text.strip()
 #             cv = refine_cy(c)
 #         except ValueError:
 #             cv = ''
@@ -6209,14 +6209,14 @@ import csv
 #
 #
 # def main():
-#     url = 'https://ru.wordpress.org/plugins/browse/blocks/'
-#     get_data(get_html(url))
+#     for i in range(2, 5):
+#         url = f'https://ru.wordpress.org/plugins/browse/blocks/page/{i}'
+#         get_data(get_html(url))
 #
 #
 # if __name__ == "__main__":
 #     main()
 
-#
 #
 # def get_html(url):
 #     r = requests.get(url)
@@ -6239,3 +6239,130 @@ import csv
 #
 # if __name__ == "__main__":
 #     main()
+
+
+# def get_html(url):
+#     r = requests.get(url)
+#     return r.text
+#
+# def get_data(html):
+#     soup = BeautifulSoup(html, 'lxml')
+#     p1 = soup.find_all('li', class_='category-page-list__item')
+#     for i in p1:
+#         try:
+#             name = i.find('p', class_='Typography ProductCardV__Title --loading Typography__Body Typography__Body_Bold').text
+#             print(name)
+#         except ValueError:
+#             name = ''
+#
+# def main():
+#     url = 'https://www.technodom.kz/catalog/noutbuki-i-komp-jutery/noutbuki-i-aksessuary/noutbuki'
+#     get_data(get_html(url))
+#
+#
+# if __name__ == "__main__":
+#     main()
+
+# import requests
+# from bs4 import BeautifulSoup
+# import csv
+#
+# from parce import Parser
+#
+# def main():
+#     pars = Parser('https://www.ixbt.com/live/index/news/','news.txt')
+#     pars.run()
+#
+#
+# if __name__ == "__main__":
+#     main()
+
+
+import socket
+
+# URLS = {
+#     '/': 'index page',
+#     '/blog': 'block page'
+# }
+#
+#
+# def parse_requests(request):
+#     parsed = request.split()
+#     method = parsed[0]
+#     url = parsed[1]
+#     return method, url
+#
+#
+# def generate_headers(method, url):
+#     if method != 'GET':
+#         return 'HTTP/1.1 405 Method Not Allowed!\n\n', 405
+#     if url not in URLS:
+#         return 'HTTP/1.1 404 Page Not Found!\n\n', 404
+#     return 'HTTP/1.1 200 OK!\n\n', 200
+#
+#
+# def generate_response(request):
+#     method, url = parse_requests(request)
+#     headers, code = generate_headers(method, url)
+#     return headers.encode()
+#
+#
+# def run():
+#     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#     server_socket.bind(('127.0.0.1', 5000))
+#     server_socket.listen()
+#
+#     while True:
+#         client_socket, addr = server_socket.accept()
+#         request = client_socket.recv(1024)
+#         print(f"Клиент: {addr} => \n{request.decode('utf-8')}\n")
+#
+#     response = generate_response(request.decode())
+#     client_socket.sendall(response)
+#     client_socket.close()
+#
+# if __name__ == '__main__':
+#     run()
+
+
+# MVC - Разделяет логику на 3 части
+# model (модель)
+# Viev (вид или представление)
+# Сontroller (контролер)
+# создадим папку articles
+# в ней сохраним project_articles.py
+
+
+
+
+import requests
+from bs4 import BeautifulSoup
+import csv
+#
+# from parce import Parser
+#
+# def main():
+#     pars = Parser('https://www.ixbt.com/live/index/news/','news.txt')
+#     pars.run()
+#
+#
+# if __name__ == "__main__":
+#     main()
+#
+#
+
+
+# Работа с базой данных SQLite3
+import sqlite3 as sq
+
+with sq.connect('profile.db') as con:
+    cur = con.cursor()
+    cur.execute('DROP TABLE users')
+    # cur.execute('''CREATE TABLE IF NOT EXISTS users(
+    # id INTEGER PRIMARY KEY AUTOINCREMENT,
+    # name TEXT NOT NULL,
+    # summa REAL,
+    # date TEXT
+    # )''')
+
+
