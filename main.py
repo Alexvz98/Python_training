@@ -6353,11 +6353,11 @@ import csv
 
 
 # Работа с базой данных SQLite3
-import sqlite3 as sq
+# import sqlite3 as sq
 
-with sq.connect('profile.db') as con:
-    cur = con.cursor()
-    cur.execute('DROP TABLE users')
+# with sq.connect('profile.db') as con:
+#     cur = con.cursor()
+#     cur.execute('DROP TABLE users')
     # cur.execute('''CREATE TABLE IF NOT EXISTS users(
     # id INTEGER PRIMARY KEY AUTOINCREMENT,
     # name TEXT NOT NULL,
@@ -6366,3 +6366,44 @@ with sq.connect('profile.db') as con:
     # )''')
 
 
+
+
+import sqlite3 as sq
+
+#
+# with sq.connect('users.db') as con:
+#     cur = con.cursor()
+    # cur.execute('''
+    # CREATE TABLE IF NOT EXISTS person(
+    # id INTEGER PRIMARY KEY AUTOINCREMENT,
+    # name TEXT NOT NULL,
+    # phone BLOB NOT NULL DEFAULT 79090000000,
+    # age INTEGER NOT NULL CHECK (age > 0 AND age < 100),
+    # email TEXT UNIQUE
+    # )
+    # ''')
+    # cur.execute('''
+    # ALTER TABLE person_table
+    # ADD COLUMN address TEXT
+    # ''')
+
+
+with sq.connect('users.db') as con:
+    cur = con.cursor()
+    cur.execute('''
+    CREATE TABLE IF NOT EXISTS person(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    phone BLOB NOT NULL DEFAULT 79090000000,
+    age INTEGER NOT NULL CHECK (age > 0 AND age < 100),
+    email TEXT UNIQUE
+    )
+    ''')
+    # cur.execute("""
+    # INSERT INTO person
+    # VALUES (1,'Ирина', '+750580311224', 23, 'irina@gmail.com')
+    # """)
+    cur.execute("""
+    INSERT INTO person(email, name, age)
+    VALUES ('sevenb@gmail.com', 'Игорь', 20)
+    """)
