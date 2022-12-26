@@ -1,0 +1,87 @@
+Таблица Prodaves:
+ID_Pr - уникальный номер продовца (первичный ключ)
+Name_Pr - имя продавца
+City_Pr - город в котором проживает продавец
+Procent - комисcионные
+
+Таблица Klient:
+ID_KL - уникальный номер клиента (первичный ключ)
+ID_Pr - уникальный номер продавца
+Name_KL - имя клиента
+City_KL – город, в котором живет клиент
+Obl_KL – страна, в которой проживает клиент
+Discoun - скидки
+
+Таблица Zakaz:
+ID_Z - уникальный номер заказа (первичный ключ)
+ID_Pr – уникальный номер продавца
+ID_KL - уникальный номер клиента
+SUMMA - сумма заказа
+Kol – количество единиц товара
+DATA - дата заказа
+CITY_Z – город, в который доставляется заказ
+Cena_Dostavki - цена доставки заказа
+
+
+1.	С помощью объединения вывести данные о каждом заказчике, для которого определен продавец.
+
+SELECT DISTINCT k.ID_KL,k.City_KL,k.Discoun,k.ID_Pr,k.Name_KL,k.Obl_KL,z.ID_Pr
+FROM Klient k INNER JOIN Zakaz z
+ON z.ID_KL=k.ID_KL
+
+
+2.	Вывести имя заказчика и данные о средней цене доставки для него. Если цена доставки больше средней по таблице написать - lot, меньше – few
+
+SELECT k.Name_KL, 'fev'
+FROM Klient k, Zakaz z
+WHERE z.ID_KL=k.ID_KL
+HAVING SUM(z.Cena_Dostavki)>z.Cena_Dostavki
+UNION 
+SELECT k.Name_KL, 'lot'
+FROM Klient k, Zakaz z
+WHERE z.ID_KL=k.ID_KL
+HAVING SUM(z.Cena_Dostavki)<z.Cena_Dostavki
+
+3.	Соедините вместе все таблицы с помощью внешнего объединения.
+
+
+SELECT *
+FROM Prodaves p OUTER JOIN Klient k, Zakaz z
+ON p.ID_Pr=k.ID_Pr AND k.ID_KL=z.ID_KL
+
+4.	С помощью объединения вывести данные о скидках клиента для каждого продавца
+
+SELECT k.Discoun,p.Name_Pr
+FROM Prodaves p INNER JOIN Klient k
+ON p.ID_Pr=k.ID_Pr
+
+
+5.	Напишите запрос, который выведет все города, в которых живут продавцы и заказчики.
+
+SELECT k.City_KL,p.City_Pr
+FROM Prodaves p INNER JOIN Klient k
+ON p.ID_Pr=k.ID_Pr
+
+
+6.	С помощью объединения вывести все данные о заказчиках и  заказах, даже если заказчик не сделал ни одного заказа за указанный период.
+
+SELECT *
+FROM Zakaz z OUTER JOIN Klient k 
+ON k.ID_KL=z.ID_KL
+
+
+
+7.	Составьте запроса для вывода имен и кодов всех продавцов, в чьих городах есть покупатели, которых они не обслуживают. С помощью оператора в подзапросе.
+
+
+
+
+8.	Напишите запрос, который выведет все города и имена продавцов и заказчиков, которые живут в Лондоне.
+
+SELECT p.City_Pr 
+FROM Prodaves p
+WHERE p.City_Pr LIKE 'London'
+UNION ALL
+SELECT k.City_KL
+FROM Klient k 
+WHERE k.City_KL LIKE 'London'

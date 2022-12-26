@@ -6333,8 +6333,6 @@ import socket
 # в ней сохраним project_articles.py
 
 
-
-
 import requests
 from bs4 import BeautifulSoup
 import csv
@@ -6358,14 +6356,12 @@ import csv
 # with sq.connect('profile.db') as con:
 #     cur = con.cursor()
 #     cur.execute('DROP TABLE users')
-    # cur.execute('''CREATE TABLE IF NOT EXISTS users(
-    # id INTEGER PRIMARY KEY AUTOINCREMENT,
-    # name TEXT NOT NULL,
-    # summa REAL,
-    # date TEXT
-    # )''')
-
-
+# cur.execute('''CREATE TABLE IF NOT EXISTS users(
+# id INTEGER PRIMARY KEY AUTOINCREMENT,
+# name TEXT NOT NULL,
+# summa REAL,
+# date TEXT
+# )''')
 
 
 import sqlite3 as sq
@@ -6373,41 +6369,124 @@ import sqlite3 as sq
 #
 # with sq.connect('users.db') as con:
 #     cur = con.cursor()
-    # cur.execute('''
-    # CREATE TABLE IF NOT EXISTS person(
-    # id INTEGER PRIMARY KEY AUTOINCREMENT,
-    # name TEXT NOT NULL,
-    # phone BLOB NOT NULL DEFAULT 79090000000,
-    # age INTEGER NOT NULL CHECK (age > 0 AND age < 100),
-    # email TEXT UNIQUE
-    # )
-    # ''')
-    # cur.execute('''
-    # ALTER TABLE person_table
-    # ADD COLUMN address TEXT
-    # ''')
+# cur.execute('''
+# CREATE TABLE IF NOT EXISTS person(
+# id INTEGER PRIMARY KEY AUTOINCREMENT,
+# name TEXT NOT NULL,
+# phone BLOB NOT NULL DEFAULT 79090000000,
+# age INTEGER NOT NULL CHECK (age > 0 AND age < 100),
+# email TEXT UNIQUE
+# )
+# ''')
+# cur.execute('''
+# ALTER TABLE person_table
+# ADD COLUMN address TEXT
+# ''')
 
 
-    # cur.execute("""
-    # INSERT INTO person
-    # VALUES (1,'Ирина', '+750580311224', 23, 'irina@gmail.com')
-    # """)
-    # cur.execute("""
-    # INSERT INTO person(email, name, age)
-    # VALUES ('sevenb@gmail.com', 'Игорь', 20)
-    # """)
+# cur.execute("""
+# INSERT INTO person
+# VALUES (1,'Ирина', '+750580311224', 23, 'irina@gmail.com')
+# """)
+# cur.execute("""
+# INSERT INTO person(email, name, age)
+# VALUES ('sevenb@gmail.com', 'Игорь', 20)
+# """)
 
 
-with sq.connect('db_4.db') as con:
+# with sq.connect('db_4.db') as con:
+#     cur = con.cursor()
+#     cur.execute('''
+#     SELECT *
+#     FROM Ware
+#     ORDER BY Price DESC
+#     LIMIT 2, 5;
+#     ''')
+#
+#     res = cur.fetchone()
+#     print(res)
+#     # for res in cur:
+#     #     print(res)
+
+
+# import sqlite3 as sq
+#
+# cars = [
+#     ('BMW', 54000),
+#     ('Chevrolet', 23000),
+#     ('Daewoo', 4000),
+#     ('Citroen', 22000),
+#     ('Honda', 62000)
+# ]
+# con = None
+# try:
+#     con = sq.connect("cars.db")
+#     cur = con.cursor()
+#     cur.executescript('''
+#         CREATE TABLE IF NOT EXISTS cars (
+#             cars_id INTEGER PRIMARY KEY AUTOINCREMENT,
+#             model TEXT,
+#             price INTEGER
+#         );
+#         BEGIN;
+#         INSERT INTO cars VALUES(NULL,'Renault', 22000);
+#         UPDATE cars SET price = price + 1000
+#         ''')
+#     con.commit()
+# except sq.Error as e:
+#     if con:
+#         con.rollback()
+#     print("Ошибка выполнения запроса")
+#
+# finally:
+#     if con:
+#         con.close()
+
+# with sq.connect('cars.db') as con:
+#     cur = con.cursor()
+#     cur.execute('''
+#     CREATE TABLE IF NOT EXISTS cars (
+#         cars_id INTEGER PRIMARY KEY AUTOINCREMENT,
+#         model TEXT,
+#         price INTEGER
+#         )
+#     ''')
+#
+#     cur.executescript("""
+#     DELETE FROM cars WHERE model LIKE 'B%';
+#     UPDATE cars SET price = price + 100
+#     """)
+
+# cur.execute("UPDATE cars SET price = :Price WHERE model LIKE 'B%'", {'Price': 0})
+# cur.executemany("INSERT INTO cars VALUES(NULL,?,?) ", cars)
+# for car in cars:
+#     cur.execute("INSERT INTO cars VALUES(NULL,?,?) ", car)
+
+# cur.execute("INSERT INTO cars VALUES(1,'Renault', 22000) ")
+# cur.execute("INSERT INTO cars VALUES(2,'Volvo', 44000) ")
+# cur.execute("INSERT INTO cars VALUES(3,'Mercedes', 56000) ")
+# cur.execute("INSERT INTO cars VALUES(4,'Bentley', 65000) ")
+# cur.execute("INSERT INTO cars VALUES(5,'Audi', 39000) ")
+
+
+import sqlite3 as sq
+
+with sq.connect('cars.db') as con:
     cur = con.cursor()
-    cur.execute('''
-    SELECT *
-    FROM Ware
-    ORDER BY Price DESC
-    LIMIT 2, 5;
-    ''')
+    cur.executescript("""
+    CREATE TABLE IF NOT EXISTS cars (
+        cars_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        model TEXT,
+        price INTEGER
+    );
+    CREATE TABLE IF NOT EXISTS cost(
+        name TEXT, 
+        tr_in INTEGER,
+        buy INTEGER
+    )
+    """)
 
-    res = cur.fetchone()
-    print(res)
-    # for res in cur:
-    #     print(res)
+    cur.execute("INSERT INTO cars VALUES(NULL,'Запорожец',1000)")
+    last_row_id= cur.lastrowid #id последней записи
+    buy_car_id = 2
+    cur.execute("INSERT INTOcost VALUES('Илья',?,?)",(last_row_id, buy_car_id))
