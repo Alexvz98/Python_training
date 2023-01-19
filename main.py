@@ -6557,21 +6557,179 @@ import sqlite3 as sq
 #         cur.executescript(sql)
 
 
-import sqlite3 as sq
+# import sqlite3 as sq
+#
+# data = [('car', "машина"), ('house', "дом"), ('three', "три"), ('color', "цвет")]
+#
+# con = sq.connect(':memory:')
+# with con:
+#     cur = con.cursor()
+#     cur.execute("""
+#     CREATE TABLE IF NOT EXISTS dict(
+#     eng TEXT,
+#     ru TEXT
+#     )
+#     """)
+#
+#     cur.executemany("INSERT INTO dict VALUES (?,?)", data)
+#
+#     cur.execute("SELECT ru FROM dict WHERE eng LIKE 'c%'")
+#     print(cur.fetchall())
 
-data = [('car', "машина"), ('house', "дом"), ('three', "три"), ('color', "цвет")]
 
-con = sq.connect(':memory:')
-with con:
-    cur = con.cursor()
-    cur.execute("""
-    CREATE TABLE IF NOT EXISTS dict(
-    eng TEXT,
-    ru TEXT
-    )
-    """)
+import os
 
-    cur.executemany("INSERT INTO dict VALUES (?,?)", data)
+from sqlalchemy import and_, or_, not_, desc, func, distinct
 
-    cur.execute("SELECT ru FROM dict WHERE eng LIKE 'c%'")
-    print(cur.fetchall())
+from models.database import DATABASE_NAME, Session
+import create_database as db_creator
+
+from models.lesson import Lesson, association_table
+from models.student import Student
+from models.group import Group
+
+if __name__ == '__main__':
+    db_is_created = os.path.exists(DATABASE_NAME)
+    if not db_is_created:
+        db_creator.create_database()
+
+    #
+    # session = Session()
+    # print(session.query(Lesson).all())  # запрос.из класса Lesson.все данные
+    # print('*' * 60)
+
+    session = Session()
+
+    # print(session.query(Student).all())
+    #
+    # for i in session.query(Student.surname):
+    #     print(i)
+
+    # for i in session.query(Student.surname).filter(Student.age >23):
+    #     print(i)
+
+    # for i,k in session.query(Student, Group.group_name).filter(and_(Student.group == Group.id, Group.group_name == "MDA-7")):
+    #     print(i,k)
+    #
+    # for i,k in session.query(Student.surname,Student.name).filter(and_(Student.surname.like('А%'),Student.name.like('Б%'))):
+    #     print(i,k)
+
+    # print(session.query(Student).count())
+
+    # print(session.query(Student).first())
+    #
+    # print(session.query(Student).get(2))
+
+    # session.add(Lesson(lessons_title = 'Философия науки'))
+    # session.commit()
+
+    # i = session.query(Lesson).filter(Lesson.lessons_title == "Философия науки").first()
+    # session.delete(i)
+    # session.commit()
+
+    # for it in session.query(Lesson):
+    #     print(it)  # тоже самое просто все элементы с новой строки
+    #     print(it.lessons_title)  # только предметы
+    # print('*' * 60)
+    #
+    # print(session.query(Lesson).count())  # количество данных
+    # print('*' * 60)
+    #
+    # print(session.query(Lesson).first())  # первое в списке
+    # print('*' * 60)
+    #
+    # print(session.query(Lesson).get(3))  # по индексу
+    # print('*' * 60)
+    #
+    # for it in session.query(Lesson).filter(Lesson.id >= 3,
+    #                                        Lesson.lessons_title.like('Ф%')):  # отфильтровывает результат по условию
+    #     print(it)
+    # print('*' * 60)
+    #
+    # for it in session.query(Lesson).filter(and_(Lesson.id >= 3, Lesson.lessons_title.like('Ф%'))):
+    #     print(it)
+    # print('*' * 60)
+    #
+    # for it in session.query(Lesson).filter(or_(Lesson.id >= 3, Lesson.lessons_title.like('Ф%'))):
+    #     print(it)
+    # print('*' * 60)
+    #
+    # for it, gr in session.query(Lesson.lessons_title, Group.group_name).filter(
+    #         and_(association_table.c.lesson_id == Lesson.id, association_table.c.group_id == Group.id,
+    #              Group.group_name == 'MDA-7')):
+    #     print(it,gr)
+    # print('*' * 60)
+    #
+    # print(session.query(Lesson).filter(Lesson.lessons_title.in_(['Математика','Линейная алгебра'])).all())
+    # # записи у которых названия предметов находятся в перечисленном списке
+    # print('*' * 60)
+    #
+    # print(session.query(Lesson).filter(Lesson.lessons_title.notin_(['Математика','Линейная алгебра'])).all())
+    # # записи у которых названия предметов не находятся в перечисленном списке
+    # print('*' * 60)
+    #
+    # print(session.query(Student).filter(Student.age.between(16, 17)).all())
+    # print('*' * 60)
+    # # записи в таблице студенты у которых возраст от 16 до 17
+    #
+    # print(session.query(Student).filter(not_(Student.age.between(16, 17))).all())
+    # print('*' * 60)
+    # # записи в таблице студенты у которых возраст не от 16 до 17
+    #
+    # print(session.query(Student).filter(Student.age.like('1%')).all())
+    # print('*' * 60)
+    # # Условие через like
+    #
+    # for it in session.query(Student).filter(Student.age.like('1%')):
+    #     print(it)
+    # print('*' * 60)
+    # # условие через like циклом
+    #
+    # for it in session.query(Student).filter(Student.age.like("1%")).limit(4):
+    #     print(it)
+    # print('*' * 60)
+    # # limit - количество записей для вывода
+    #
+    # for it in session.query(Student).filter(Student.age.like('1%')).limit(4).offset(3):
+    #     print(it)
+    # print('*' * 60)
+    # # offset - с какого элемента идет вывод(смещение)
+    #
+    # for it in session.query(Student).order_by(Student.surname):
+    #     print(it)
+    # print('*' * 60)
+    # # сортировка по фамилии(по возрастанию)
+    #
+    # for it in session.query(Student).order_by(desc(Student.surname)):
+    #     print(it)
+    # print('*' * 60)
+    # # desc - сортировка по убыванию
+    #
+    # # join - используется как в SQLite3 INNER JOIN принимает
+    # # название таблицы в которой надо объединить несколько таблиц вместе
+    #
+    # for it in session.query(Student).join(Group).filter(Group.group_name == 'MDA-7'):
+    #     print(it)
+    # print('*' * 60)
+    #
+    # for it in session.query(func.count(Student.surname), Group.group_name).join(Group).group_by(Group.group_name):
+    #     print(it)
+    # print('*' * 60)
+    # # вывод кол-во человек в каждой группе и название группы
+    #
+    # for it in session.query(func.count(Student.surname), Group.group_name).join(Group).group_by(
+    #         Group.group_name).having(func.count(Student.surname) < 26):
+    #     print(it)
+    # print('*' * 60)
+    # # вывод кол-во студентов в каждой группе в которой не меньше 26 человек
+    #
+    # for it in session.query(distinct(Student.age)):
+    #     print(it)
+    # print('*' * 60)
+    # # distinct - без повторяющихся элементов
+    #
+    # for it in session.query(Student.age).filter(Student.age < 20).distinct():
+    #     print(it)
+    # print('*' * 60)
+    # # сортируем и distinct убираем дублирующие элементы
+
