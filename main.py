@@ -6733,3 +6733,13 @@ if __name__ == '__main__':
     # print('*' * 60)
     # # сортируем и distinct убираем дублирующие элементы
 
+from jinja2 import Template, Environment, FileSystemLoader
+
+
+file_loader = FileSystemLoader('dz49')
+env = Environment(loader=file_loader)
+
+tm = env.get_template('main.html')
+msg = tm.render()
+
+print(msg)
